@@ -110,7 +110,7 @@ int main(int argc, char** argv){
 
     for (auto& p : bestMovies){
         if (p.second.rating >= 0){
-            cout << "Best movie with prefix " << p.first << " is: "
+            cout << "Best movie with prefix " << p.first << " is "
                  << p.second.name << " with rating "
                  << fixed << setprecision(1) << p.second.rating << "\n";
         }

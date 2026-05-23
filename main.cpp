@@ -56,7 +56,7 @@ int main(int argc, char** argv){
     double movieRating;
 
     while (getline(movieFile, line) && parseLine(line, movieName, movieRating)){
-        string clean = cleanName(movieName);
+        string clean = movieName;
         movieMap[clean] = movieRating;
     }
     movieFile.close();

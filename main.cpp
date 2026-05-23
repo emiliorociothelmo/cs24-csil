@@ -17,7 +17,7 @@ bool parseLine(string &line, string &movieName, double &movieRating);
 string cleanName(const string& name) {
     string result;
     for (char c : name) {
-        if (c != ':' && c != '\'' && c != ',' && c != '!' && c != '.' && c != '-' && c != '&' && c != '(' && c != ')') {
+        if (c != ':' && c != ',' && c != '!' && c != '.' && c != '-' && c != '&' && c != '(' && c != ')') {
             result += c;
         }
     }

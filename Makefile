@@ -1,22 +1,19 @@
-# Makefile
-CXX_FLAG = --std=c++11 -g
+CXX=g++
+CXXFLAGS=-std=c++17
 
-all: testlist testrest
+all: examheap testlist
 
-testlist: testlist.o intlist.o
-	g++ $(CXX_FLAG) -o testlist testlist.o intlist.o
+examheap: examheap.cpp heap.cpp heap.h
+	$(CXX) $(CXXFLAGS) -o examheap examheap.cpp heap.cpp
 
-testrest: testrest.o intlist.o
-	g++ $(CXX_FLAG) -o testrest testrest.o intlist.o
+testlist.o: heap.h
+	$(CXX) $(CXXFLAGS) -c testlist.cpp
 
-testlist.o: testlist.cpp
-	g++ -c $(CXX_FLAG) testlist.cpp
+heap.o: heap.cpp heap.h
+	$(CXX) $(CXXFLAGS) -c heap.cpp
 
-testrest.o: testrest.cpp
-	g++ -c $(CXX_FLAG) testrest.cpp
-
-intlist.o: intlist.cpp
-	g++ -c $(CXX_FLAG) intlist.cpp
+testlist: testlist.o heap.o
+	$(CXX) $(CXXFLAGS) -o testlist testlist.o heap.o
 
 clean:
-	rm -f testrest testlist *.o
+	rm -f examheap testlist *.o

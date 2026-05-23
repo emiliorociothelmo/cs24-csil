@@ -1,19 +1,16 @@
-CXX=g++
-CXXFLAGS=-std=c++17
+CXX_FLAGS = -std=c++20 -Ofast
 
-all: examheap testlist
+all: runMovies
 
-examheap: examheap.cpp heap.cpp heap.h
-	$(CXX) $(CXXFLAGS) -o examheap examheap.cpp heap.cpp
+runMovies: movies.o utilities.o main.cpp
+	g++ $(CXX_FLAGS) -o runMovies movies.o utilities.o main.cpp
 
-testlist.o: heap.h
-	$(CXX) $(CXXFLAGS) -c testlist.cpp
+movies.o: movies.h movies.cpp 
+	g++ -c $(CXX_FLAGS) movies.cpp
 
-heap.o: heap.cpp heap.h
-	$(CXX) $(CXXFLAGS) -c heap.cpp
-
-testlist: testlist.o heap.o
-	$(CXX) $(CXXFLAGS) -o testlist testlist.o heap.o
+utilities.o: utilities.h utilities.cpp 
+	g++ -c $(CXX_FLAGS) utilities.cpp
 
 clean:
-	rm -f examheap testlist *.o
+	rm -f *.o
+	rm -f runMovies

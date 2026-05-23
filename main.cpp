@@ -103,6 +103,7 @@ int main(int argc, char** argv){
             for (auto& m : matches){
                 cout << m.name << ", " << fixed << setprecision(1) << m.rating << "\n";
             }
+            cout << "\n";
             bestMovies.push_back({prefix, matches[0]});
         }
     }

@@ -1,164 +1,141 @@
-#include "intlist.h"
-#include <iostream>
-using std::cout;
-
-// Name: Milo Thelmo
-// Date: 2026-01-16
+// intlist.cpp
+// Implements class IntList
+// YOUR NAME, DATE
 
 #include "intlist.h"
 #include <iostream>
 using std::cout;
 
-// Name...
-// Date...
-
-// default constructor
+// constructor sets up empty list
 IntList::IntList() {
     head = nullptr;
     tail = nullptr;
 }
 
-// copy constructor (deep copy)
+// copy constructor - deep copy
 IntList::IntList(const IntList& source) {
     head = nullptr;
     tail = nullptr;
-
-    Node* curr = source.head;
-    while (curr != nullptr) {
-        push_back(curr->info);   // uses your working push_back
-        curr = curr->next;
+    Node* n = source.head;
+    while (n) {
+        push_back(n->info);
+        n = n->next;
     }
 }
 
-// destructor (delete all nodes)
+// destructor deletes all nodes
 IntList::~IntList() {
-    Node* curr = head;
-    while (curr != nullptr) {
-        Node* temp = curr;
-        curr = curr->next;
-        delete temp;
+    Node* n = head;
+    while (n) {
+        Node* next = n->next;
+        delete n;
+        n = next;
     }
     head = nullptr;
     tail = nullptr;
 }
 
-// assignment operator (deep copy, handles self-assignment)
+// assignment operator - deep copy
 IntList& IntList::operator=(const IntList& source) {
-    if (this == &source) return *this;   // self-assignment guard
-
-    // 1) delete current list
-    Node* curr = head;
-    while (curr != nullptr) {
-        Node* temp = curr;
-        curr = curr->next;
-        delete temp;
+    if (this == &source) return *this;
+    Node* n = head;
+    while (n) {
+        Node* next = n->next;
+        delete n;
+        n = next;
     }
     head = nullptr;
     tail = nullptr;
-
-    // 2) deep copy from source
-    curr = source.head;
-    while (curr != nullptr) {
-        push_back(curr->info);
-        curr = curr->next;
+    Node* s = source.head;
+    while (s) {
+        push_back(s->info);
+        s = s->next;
     }
-
     return *this;
 }
 
-
-
-// return sum of values in list
-int IntList::sum() const {
-    int total = 0;
-    Node* curr = head;
-    while (curr != nullptr) {
-        total += curr->info;
-        curr = curr->next;
-    }
-    return total;
-}
-
-// returns true if value is in the list; false if not
-bool IntList::contains(int value) const {
-    Node* curr = head;
-    while (curr != nullptr) {
-        if (curr->info == value) return true;
-        curr = curr->next;
-    }
-    return false;
-}
-
-// returns maximum value in list, or 0 if empty list
-int IntList::max() const {
-    if (head == nullptr) return 0;
-
-    int best = head->info;
-    Node* curr = head->next;
-    while (curr != nullptr) {
-        if (curr->info > best) best = curr->info;
-        curr = curr->next;
-    }
-    return best;
-}
-
-// returns average (arithmetic mean) of all values, or 0 if empty
-double IntList::average() const {
-    int n = count();
-    if (n == 0) return 0.0;
-    return static_cast<double>(sum()) / n;
-}
-
-// inserts value as new node at beginning of list
+// insert value at front of list
 void IntList::push_front(int value) {
-    Node* n = new Node();
-    n->info = value;
-    n->next = head;
-
-    head = n;
-    if (tail == nullptr) {
-        tail = n;
-    }
+    Node* newNode = new Node;
+    newNode->info = value;
+    newNode->next = head;
+    head = newNode;
+    if (tail == nullptr)
+        tail = head;
 }
 
 // append value at end of list
 void IntList::push_back(int value) {
-    Node* n = new Node();
-    n->info = value;
-    n->next = nullptr;
-
-    if (head == nullptr) {
-        head = tail = n;
-        return;
+    Node* newNode = new Node;
+    newNode->info = value;
+    newNode->next = nullptr;
+    if (tail == nullptr) {
+        head = newNode;
+        tail = newNode;
+    } else {
+        tail->next = newNode;
+        tail = newNode;
     }
-
-    tail->next = n;
-    tail = n;
 }
 
 // return count of values
 int IntList::count() const {
-    int n = 0;
-    Node* curr = head;
-    while (curr != nullptr) {
-        n++;
-        curr = curr->next;
+    int cnt = 0;
+    Node* n = head;
+    while (n) {
+        cnt++;
+        n = n->next;
     }
-    return n;
+    return cnt;
 }
 
-// DO NOT CHANGE ANYTHING BELOW (READ IT THOUGH)
+// return sum of values in list
+int IntList::sum() const {
+    int total = 0;
+    Node* n = head;
+    while (n) {
+        total += n->info;
+        n = n->next;
+    }
+    return total;
+}
 
-// print values enclose in [], separated by spaces
+// returns true if value is in the list
+bool IntList::contains(int value) const {
+    Node* n = head;
+    while (n) {
+        if (n->info == value) return true;
+        n = n->next;
+    }
+    return false;
+}
+
+// returns maximum value in list, or 0 if empty
+int IntList::max() const {
+    if (head == nullptr) return 0;
+    int m = head->info;
+    Node* n = head->next;
+    while (n) {
+        if (n->info > m) m = n->info;
+        n = n->next;
+    }
+    return m;
+}
+
+// returns average of all values, or 0 if empty
+double IntList::average() const {
+    if (head == nullptr) return 0.0;
+    return (double)sum() / count();
+}
+
+// DO NOT CHANGE ANYTHING BELOW
 void IntList::print() const {
-    Node *n = head;
+    Node* n = head;
     cout << '[';
     while (n) {
         cout << n->info;
-        if (n->next)
-            cout << " ";
+        if (n->next) cout << " ";
         n = n->next;
     }
     cout << ']';
 }
-

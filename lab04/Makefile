@@ -1,7 +1,10 @@
-all: examheap
+CXX=g++
+CXXFLAGS=-std=c++17
 
 examheap: examheap.cpp heap.cpp heap.h
-	g++ -o examheap examheap.cpp heap.cpp
+	$(CXX) $(CXXFLAGS) -o examheap examheap.cpp heap.cpp
+
+all: examheap
 
 clean:
 	rm -f examheap
